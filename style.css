@@ -8,6 +8,7 @@
 }
 
 *{
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
     outline: none;
@@ -15,6 +16,88 @@
     text-decoration: none;
     /* text-transform: capitalize; */
     transition: 0.2s linear;
+}
+
+/* Menu responsivo */
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Layout padrão para desktop */
+@media (min-width: 768px) {
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .box-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    /* Caixa de comentários */
+    .box {
+        flex: 1 1 calc(33.33% - 20px);
+    }
+}
+
+/* Para telas médias, como tablets */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Reduzir tamanho da imagem e da fonte */
+    img {
+        max-width: 100%;
+    }
+}
+
+/* Para telas pequenas, como smartphones */
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cart-sidebar {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    /* Menu em uma coluna */
+    .box-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Texto centralizado e fontes menores */
+    h2.title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .home-container .content h3 {
+        font-size: 20px;
+    }
+
+    .content p {
+        font-size: 16px;
+        text-align: center;
+    }
 }
 
 body{
