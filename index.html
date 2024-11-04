@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,300;1,700&display=swap" rel="stylesheet">
+    <title>Cupcake Gourmet</title>
+</head>
+
+<body>
+    <header class="header">
+        <section>
+            <a href="#" class="logo">
+                <img src="./img/logo.png" alt="logo">
+            </a>
+    
+            <nav class="navbar">
+                <a href="#">Home</a>
+                <a href="#about">Sobre</a>
+                <a href="#menu">Menu</a>
+                <a href="#review">Avaliações</a>
+                <a href="#address">Endereço</a>
+            </nav>
+    
+            <div class="icons">
+                <img width="25" height="25" src="https://img.icons8.com/ios-filled/25/ffffff/search--v1.png" alt="search" />
+                <div id="cart-icon" onclick="toggleCart()">
+                    <img width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/ffffff/shopping-cart--v1.png" alt="shopping-cart" />
+                    <span id="cart-count">0</span> <!-- Exibe o número de itens -->
+                </div>
+            </div>
+        </section>
+    </header>
+    
+    <!-- Barra lateral do carrinho -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <h2>Carrinho</h2>
+        <ul id="cart-items"></ul>
+        <div class="cart-total">
+            <p>Total: <span id="total-price">R$0,00</span></p>
+        </div>
+        <button onclick="finalizeOrder()">Finalizar Pedido</button>
+        <button onclick="closeCart()">Fechar Carrinho</button>
+    </div>
+    
+
+    <div class="home-container">
+        <section id="home">
+            <div class="content">
+                <h3>Adoce seu dia com os melhores cupcakes gourmet da região</h3>
+                <p>Cupcake de todos o sabores, cores e intensidades, para você se deliciar!</p>
+                <a href="#menu" class="btn">Pegue o seu agora!</a>
+            </div>
+
+        </section>
+    </div>
+
+    <section class="about" id="about">
+        <h2 class="title">Sobre <span>Nós</span></h2>
+        <div class="row">
+            <div class="container-image">
+                <img src="./img/about-img.png" alt="sobre-nos">
+            </div>
+            <div class="content">
+                <h3>O que faz o nosso cupcake especial</h3>
+                <p>Nosso cupcake é especial porque cada detalhe é pensado para proporcionar uma experiência única e inesquecível. Utilizamos ingredientes frescos e de alta qualidade, garantindo sabor e textura incomparáveis, e nossa receita é cuidadosamente balanceada para oferecer o doce perfeito, sem exageros. Além disso, nossa decoração é feita com criatividade e capricho, trazendo charme e personalidade em cada unidade. Não é apenas um doce: é uma celebração do sabor e um presente para os sentidos!</p>
+                <a href="#" class="btn">Saiba mais!</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <h2 class="title">Nosso <span>Menu</span></h2>
+        <div class="box-container">
+            <div class="box">
+                <img src="./img/menu-1.png" alt="item-1">
+                <h3>Cupcake de Morango</h3>
+                <div class="price">R$7,99 <span>R$10,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+
+            <div class="box">
+                <img src="./img/menu-2.png" alt="item-1">
+                <h3>Cupcake de Café</h3>
+                <div class="price">R$15,99 <span>R$20,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+
+            <div class="box">
+                <img src="./img/menu-3.png" alt="item-1">
+                <h3>Cupcake Baunilha com Cereja</h3>
+                <div class="price">R$12,99 <span>R$14,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+
+            <div class="box">
+                <img src="./img/menu-4.png" alt="item-1">
+                <h3>Cupcake Mirtilio</h3>
+                <div class="price">R$15,99 <span>R$20,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+
+            <div class="box">
+                <img src="./img/menu-5.png" alt="item-1">
+                <h3>Cupcake Chocolate Branco</h3>
+                <div class="price">R$15,99 <span>R$20,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+
+            <div class="box">
+                <img src="./img/menu-6.png" alt="item-1">
+                <h3>Cupcake de Nozes</h3>
+                <div class="price">R$17,99 <span>R$20,99</span></div>
+                <a href="#" class="btn">Adicione ao Carrinho</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="review" id="review">
+        <h2 class="title">Nossos <span>Clientes</span></h2>
+        <div class="box-container">
+            <div class="box">
+                <img src="./img/quote-img.png" alt="comentario">
+                <p> Um dos melhores Cupcake que já comi, podem comprar sem medo. Excelente!</p>
+                <img src="./img/pic-1.png" alt="foto-cliente" class="user">
+                <h3>João Silva</h3>
+                <div class="stars">
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="./img/quote-img.png" alt="comentario">
+                <p>Meu cupcake favorito! Atendimento excelente!</p>
+                <img src="./img/pic-2.png" alt="foto-cliente" class="user">
+                <h3>Maria Luisa</h3>
+                <div class="stars">
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star-half-empty.png" alt="star-half-empty"/>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="./img/quote-img.png" alt="comentario">
+                <p>Amei cada detalhe, são deliciosos! E o atendimento é incrivel.</p>
+                <img src="./img/pic-3.png" alt="foto-cliente" class="user">
+                <h3>Pedro Neves</h3>
+                <div class="stars">
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/star--v1.png" alt="star--v1"/>                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="address" id="address">
+        <h2 class="title">Nosso <span>Endereço</span></h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57652.12805194726!2d-49.2720706!3d-25.4296365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce412dff59995%3A0xd9646675e5a8bb20!2sPra%C3%A7a%20Tiradentes!5e0!3m2!1spt-BR!2sbr!4v1730473755996!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <section class="footer">
+        <div class="share">
+            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/ffffff/instagram-new.png" alt="instagram-new"/>
+        </div>
+    </section>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
