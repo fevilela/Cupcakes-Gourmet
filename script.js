@@ -87,6 +87,68 @@ function finalizeOrder() {
     updateCart();
 }
 
+function searchItems() {
+    const searchQuery = document.getElementById("search-input").value.toLowerCase().trim();
+    const suggestionsContainer = document.getElementById("suggestions");
+
+    // Limpa as sugestões a cada nova busca
+    suggestionsContainer.innerHTML = "";
+
+    if (!searchQuery) {
+        suggestionsContainer.style.display = "none"; // Esconde o menu se não houver consulta
+        return;
+    }
+
+    const items = document.querySelectorAll(".menu .box");
+    const matchingItems = Array.from(items).filter(item => {
+        const itemName = item.getAttribute("data-name").toLowerCase();
+        return itemName.includes(searchQuery);
+    });
+
+    if (matchingItems.length > 0) {
+        // Exibe o contêiner de sugestões
+        suggestionsContainer.style.display = "block";
+
+        matchingItems.forEach(item => {
+            const suggestion = document.createElement("div");
+            suggestion.textContent = item.getAttribute("data-name");
+            suggestion.onclick = () => selectItem(item); // Função para selecionar o item
+            suggestionsContainer.appendChild(suggestion);
+        });
+    } else {
+        // Se não encontrar nada, exibe uma mensagem
+        const noResult = document.createElement("div");
+        noResult.textContent = "Nenhum item encontrado";
+        noResult.style.color = "#999";
+        suggestionsContainer.appendChild(noResult);
+        suggestionsContainer.style.display = "block"; // Exibe o menu mesmo sem resultados
+    }
+}
+
+function selectItem(item) {
+    // Insere o nome do item no campo de busca
+    document.getElementById("search-input").value = item.getAttribute("data-name");
+    document.getElementById("suggestions").style.display = "none"; // Esconde o menu suspenso
+    
+    // Rola a página até o item selecionado
+    item.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+document.getElementById("search-icon").addEventListener("click", function() {
+    const searchInput = document.getElementById("search-input");
+    
+    // Alterna a visibilidade do campo de pesquisa
+    if (searchInput.style.display === "none" || searchInput.style.display === "") {
+        searchInput.style.display = "block"; // Exibe a barra de pesquisa
+        searchInput.focus(); // Coloca o cursor na barra de pesquisa
+    } else {
+        searchInput.style.display = "none"; // Oculta a barra de pesquisa
+        searchInput.value = ""; // Limpa o campo de pesquisa
+        document.getElementById("suggestions").style.display = "none"; // Esconde sugestões
+    }
+});
+
+
 // Evento de clique nos botões "Adicionar ao Carrinho"
 document.querySelectorAll(".menu .box .btn").forEach(button => {
     button.addEventListener("click", (event) => {

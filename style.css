@@ -310,36 +310,54 @@ section{
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid #444; /* Escurecendo a borda para contraste */
+    border-bottom: 1px solid #444;
+    gap: 1rem; /* Espaço entre título/preço e os controles */
+}
+
+#cart-items li .item-info {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%; /* Limita a largura do título/preço */
+}
+
+#cart-items li .item-title {
+    font-size: 1.4rem;
+    color: #fff;
+    word-break: break-word;
+    margin-bottom: 0.3rem;
+}
+
+#cart-items li .item-price {
+    font-size: 1.2rem;
+    color: #d3ad7f;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Espaço entre os botões */
+    min-width: 10rem; /* Garante um espaço fixo para os botões */
 }
 
 #cart-items li:last-child {
     border-bottom: none;
 }
 
-.cart-item-controls {
-    display: flex;
-    gap: 1rem;
+.cart-item-controls button {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .cart-item-controls span {
-    font-size: 1rem; /* Tamanho da fonte para ficar proporcional */
+    font-size: 1.2rem;
     color: #fff;
-    width: 1.5rem; /* Largura fixa para garantir que o espaço seja uniforme */
-    text-align: center; /* Centraliza o número */
-    padding: 2rem 0; /* Ajuste de espaçamento interno */
-}
-
-
-.cart-item-controls button {
-    padding: 1rem;
-    font-size: 1rem;
-    background-color: var(--main-color);
-    color: #fff;
-    cursor: pointer;
-    border: none;
-    border-radius: 1rem;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 2rem;
 }
 
 .cart-item-controls button:hover {
@@ -369,11 +387,85 @@ section{
     font-size: 1rem;
 }
 
+.remove-button {
+    width: 2rem; /* Ajuste a largura conforme desejado */
+    height: 2rem; /* Ajuste a altura conforme desejado */
+    font-size: 1.2rem; /* Ajusta o tamanho do ícone */
+    background-color: transparent; /* Deixe o fundo transparente */
+    color: var(--main-color); /* Ajuste a cor do ícone */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove o padding para ajustar ao tamanho */
+}
+
+#search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Contêiner da barra de pesquisa */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ícone de pesquisa */
+#search-icon {
+    cursor: pointer;
+}
+
+/* Campo de entrada de pesquisa */
+#search-input {
+    display: none; /* Oculto por padrão */
+    width: 200px;
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 1.2rem;
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 4px;
+}
+
+/* Sugestões de pesquisa */
+#suggestions {
+    position: absolute;
+    top: 35px; /* Ajuste para alinhar logo abaixo da barra de pesquisa */
+    background-color: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    display: none; /* Escondido por padrão */
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions div:hover {
+    background-color: #fff;
+}
+
+
 /* Estilo para a área do total no carrinho */
 .cart-summary {
     margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #fff;
     font-size: 1.2em;
     font-weight: bold;
     color: #fff;

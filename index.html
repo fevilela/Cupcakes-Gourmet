@@ -27,7 +27,12 @@
             </nav>
     
             <div class="icons">
-                <img width="25" height="25" src="https://img.icons8.com/ios-filled/25/ffffff/search--v1.png" alt="search" />
+                <div class="search-container">
+                    <img id="search-icon" src="https://img.icons8.com/ios-filled/25/ffffff/search--v1.png" alt="search" />
+                    <input type="text" id="search-input" placeholder="Buscar cupcake..." oninput="searchItems()" />
+                    <div id="suggestions"></div>
+                </div>
+                
                 <div id="cart-icon" onclick="toggleCart()">
                     <img width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/ffffff/shopping-cart--v1.png" alt="shopping-cart" />
                     <span id="cart-count">0</span> <!-- Exibe o número de itens -->
@@ -76,42 +81,42 @@
     <section class="menu" id="menu">
         <h2 class="title">Nosso <span>Menu</span></h2>
         <div class="box-container">
-            <div class="box">
+            <div class="box" data-name="Cupcake de Morango">
                 <img src="./img/menu-1.png" alt="item-1">
                 <h3>Cupcake de Morango</h3>
                 <div class="price">R$7,99 <span>R$10,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box">
+            <div class="box" data-name="Cupcake de Café">
                 <img src="./img/menu-2.png" alt="item-1">
                 <h3>Cupcake de Café</h3>
                 <div class="price">R$15,99 <span>R$20,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box">
+            <div class="box" data-name="Cupcake Baunilha com Cereja">
                 <img src="./img/menu-3.png" alt="item-1">
                 <h3>Cupcake Baunilha com Cereja</h3>
                 <div class="price">R$12,99 <span>R$14,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box">
+            <div class="box" data-name="Cupcake de Mirtilio">
                 <img src="./img/menu-4.png" alt="item-1">
-                <h3>Cupcake Mirtilio</h3>
+                <h3>Cupcake de Mirtilio</h3>
                 <div class="price">R$15,99 <span>R$20,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box">
+            <div class="box" data-name="Cupcake Chocolate Branco">
                 <img src="./img/menu-5.png" alt="item-1">
                 <h3>Cupcake Chocolate Branco</h3>
                 <div class="price">R$15,99 <span>R$20,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box">
+            <div class="box" data-name="Cupcake de Nozes">
                 <img src="./img/menu-6.png" alt="item-1">
                 <h3>Cupcake de Nozes</h3>
                 <div class="price">R$17,99 <span>R$20,99</span></div>
