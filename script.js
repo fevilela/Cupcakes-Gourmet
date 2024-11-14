@@ -66,7 +66,7 @@ function updateCart() {
 // Função para alterar a quantidade de um item
 function changeQuantity(index, change) {
     cartItems[index].quantity += change;
-    
+
     // Remove o item se a quantidade chegar a zero
     if (cartItems[index].quantity === 0) {
         cartItems.splice(index, 1);
@@ -86,6 +86,20 @@ function finalizeOrder() {
     cartItems = []; // Limpa o carrinho
     updateCart();
 }
+
+// Evento de clique nos botões "Adicionar ao Carrinho"
+document.querySelectorAll(".menu .box .btn").forEach(button => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // Extrai o nome e o preço do item
+        const itemName = button.parentElement.querySelector("h3").textContent;
+        const itemPrice = button.parentElement.querySelector(".price").textContent.replace("R$", "").trim();
+
+        // Adiciona o item ao carrinho
+        addToCart(itemName, itemPrice);
+    });
+});
 
 function searchItems() {
     const searchQuery = document.getElementById("search-input").value.toLowerCase().trim();
@@ -125,15 +139,6 @@ function searchItems() {
     }
 }
 
-function selectItem(item) {
-    // Insere o nome do item no campo de busca
-    document.getElementById("search-input").value = item.getAttribute("data-name");
-    document.getElementById("suggestions").style.display = "none"; // Esconde o menu suspenso
-    
-    // Rola a página até o item selecionado
-    item.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
 document.getElementById("search-icon").addEventListener("click", function() {
     const searchInput = document.getElementById("search-input");
     
@@ -148,19 +153,72 @@ document.getElementById("search-icon").addEventListener("click", function() {
     }
 });
 
+function selectItem(item) {
+    // Insere o nome do item no campo de busca
+    document.getElementById("search-input").value = item.getAttribute("data-name");
+    document.getElementById("suggestions").style.display = "none"; // Esconde o menu suspenso
+    
+    // Rola a página até o item selecionado
+    item.scrollIntoView({ behavior: "smooth", block: "center" });
+}
 
-// Evento de clique nos botões "Adicionar ao Carrinho"
-document.querySelectorAll(".menu .box .btn").forEach(button => {
-    button.addEventListener("click", (event) => {
-        event.preventDefault();
+// Função para abrir o modal de checkout
+function openModal() {
+    const modal = document.getElementById("checkout-modal");
+    modal.style.display = "block";
+}
+
+// Função para fechar o modal de checkout
+function closeModal() {
+    const modal = document.getElementById("checkout-modal");
+    modal.style.display = "none";
+}
+
+// Opcional: Fecha o modal quando o usuário clica fora dele
+window.onclick = function(event) {
+    const modal = document.getElementById("checkout-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Função para finalizar o pedido
+function submitOrder() {
+    const address = document.getElementById("address").value.trim();
+    const cep = document.getElementById("cep").value.trim();
+
+    // Validar se o CEP é de Curitiba (exemplo: "80xxxx-xxx")
+    const curitibaCepRegex = /^[0-9]{5}-[0-9]{3}$/; // Expressão regular simples para validar o formato de CEP
+    const isCuritiba = curitibaCepRegex.test(cep);
+
+    if (!address || !cep) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    if (!isCuritiba) {
+        // Exibe um alerta de erro se o CEP não for de Curitiba
+        alert("Desculpe, entregamos apenas em Curitiba.");
+    } else {
+        // Fechar o modal
+        closeModal();
+
+        // Mostrar mensagem de agradecimento
+        alert("Pedido finalizado com sucesso! Agradecemos a sua preferência.");
         
-        // Extrai o nome e o preço do item
-        const itemName = button.parentElement.querySelector("h3").textContent;
-        const itemPrice = button.parentElement.querySelector(".price").textContent.replace("R$", "").trim();
+        // Limpa o carrinho após finalizar o pedido
+        cartItems = []; 
+        updateCart();
+    }
+}
 
-        // Adiciona o item ao carrinho
-        addToCart(itemName, itemPrice);
-    });
-});
+// // Evento para fechar o modal se clicar fora dele
+// window.onclick = function(event) {
+//     const modal = document.getElementById("checkout-modal");
+//     if (event.target === modal) {
+//         closeModal();
+//     }
+// };
+
 
 

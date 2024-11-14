@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,300;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,300;1,700&display=swap"
+        rel="stylesheet">
     <title>Cupcake Gourmet</title>
 </head>
 
@@ -17,7 +18,7 @@
             <a href="#" class="logo">
                 <img src="./img/logo.png" alt="logo">
             </a>
-    
+
             <nav class="navbar">
                 <a href="#">Home</a>
                 <a href="#about">Sobre</a>
@@ -25,22 +26,23 @@
                 <a href="#review">Avaliações</a>
                 <a href="#address">Endereço</a>
             </nav>
-    
+
             <div class="icons">
                 <div class="search-container">
-                    <img id="search-icon" src="https://img.icons8.com/ios-filled/25/ffffff/search--v1.png" alt="search" />
+                    <img id="search-icon" src="https://img.icons8.com/ios-filled/25/ffffff/search--v1.png"
+                        alt="search" />
                     <input type="text" id="search-input" placeholder="Buscar cupcake..." oninput="searchItems()" />
                     <div id="suggestions"></div>
                 </div>
-                
                 <div id="cart-icon" onclick="toggleCart()">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/ffffff/shopping-cart--v1.png" alt="shopping-cart" />
-                    <span id="cart-count">0</span> <!-- Exibe o número de itens -->
+                    <img width="25" height="25" src="https://img.icons8.com/ios-glyphs/25/ffffff/shopping-cart--v1.png"
+                        alt="shopping-cart" />
+                    <span id="cart-count">0</span>
                 </div>
             </div>
         </section>
     </header>
-    
+
     <!-- Barra lateral do carrinho -->
     <div class="cart-sidebar" id="cart-sidebar">
         <h2>Carrinho</h2>
@@ -48,10 +50,11 @@
         <div class="cart-total">
             <p>Total: <span id="total-price">R$0,00</span></p>
         </div>
-        <button onclick="finalizeOrder()">Finalizar Pedido</button>
+        <button onclick="openModal()">Finalizar Pedido</button>
+
         <button onclick="closeCart()">Fechar Carrinho</button>
     </div>
-    
+
 
     <div class="home-container">
         <section id="home">
@@ -72,7 +75,12 @@
             </div>
             <div class="content">
                 <h3>O que faz o nosso cupcake especial</h3>
-                <p>Nosso cupcake é especial porque cada detalhe é pensado para proporcionar uma experiência única e inesquecível. Utilizamos ingredientes frescos e de alta qualidade, garantindo sabor e textura incomparáveis, e nossa receita é cuidadosamente balanceada para oferecer o doce perfeito, sem exageros. Além disso, nossa decoração é feita com criatividade e capricho, trazendo charme e personalidade em cada unidade. Não é apenas um doce: é uma celebração do sabor e um presente para os sentidos!</p>
+                <p>Nosso cupcake é especial porque cada detalhe é pensado para proporcionar uma experiência única e
+                    inesquecível. Utilizamos ingredientes frescos e de alta qualidade, garantindo sabor e textura
+                    incomparáveis, e nossa receita é cuidadosamente balanceada para oferecer o doce perfeito, sem
+                    exageros. Além disso, nossa decoração é feita com criatividade e capricho, trazendo charme e
+                    personalidade em cada unidade. Não é apenas um doce: é uma celebração do sabor e um presente para os
+                    sentidos!</p>
                 <a href="#" class="btn">Saiba mais!</a>
             </div>
         </div>
@@ -102,9 +110,9 @@
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
 
-            <div class="box" data-name="Cupcake de Mirtilio">
+            <div class="box" data-name="Cupcake Mirtilio">
                 <img src="./img/menu-4.png" alt="item-1">
-                <h3>Cupcake de Mirtilio</h3>
+                <h3>Cupcake Mirtilio</h3>
                 <div class="price">R$15,99 <span>R$20,99</span></div>
                 <a href="#" class="btn">Adicione ao Carrinho</a>
             </div>
@@ -134,11 +142,16 @@
                 <img src="./img/pic-1.png" alt="foto-cliente" class="user">
                 <h3>João Silva</h3>
                 <div class="stars">
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
                 </div>
             </div>
 
@@ -148,10 +161,14 @@
                 <img src="./img/pic-2.png" alt="foto-cliente" class="user">
                 <h3>Maria Luisa</h3>
                 <div class="stars">
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star-half-empty.png" alt="star-half-empty"/>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star-half-empty.png"
+                        alt="star-half-empty" />
                 </div>
             </div>
 
@@ -161,26 +178,53 @@
                 <img src="./img/pic-3.png" alt="foto-cliente" class="user">
                 <h3>Pedro Neves</h3>
                 <div class="stars">
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png" alt="star--v1"/>
-                    <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/star--v1.png" alt="star--v1"/>                </div>
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                    <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/star--v1.png"
+                        alt="star--v1" />
+                </div>
             </div>
         </div>
     </section>
 
     <section class="address" id="address">
         <h2 class="title">Nosso <span>Endereço</span></h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57652.12805194726!2d-49.2720706!3d-25.4296365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce412dff59995%3A0xd9646675e5a8bb20!2sPra%C3%A7a%20Tiradentes!5e0!3m2!1spt-BR!2sbr!4v1730473755996!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57652.12805194726!2d-49.2720706!3d-25.4296365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce412dff59995%3A0xd9646675e5a8bb20!2sPra%C3%A7a%20Tiradentes!5e0!3m2!1spt-BR!2sbr!4v1730473755996!5m2!1spt-BR!2sbr"
+            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
     </section>
+
+    <!-- Modal de Checkout -->
+    <div id="checkout-modal" class="checkout-modal">
+        <div class="checkout-modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3>Preencha seu endereço para entrega</h3>
+            <form id="checkout-form">
+                <label for="address">Endereço:</label>
+                <input type="text" id="address" name="address" placeholder="Rua, número, bairro" required>
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" placeholder="CEP" required>
+                <button type="button" onclick="submitOrder()">Finalizar Pedido</button>
+            </form>
+            <p id="delivery-warning" style="color: red; display: none;">Apenas realizamos entregas em Curitiba.</p>
+        </div>
+    </div>
+
 
     <section class="footer">
         <div class="share">
-            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/ffffff/instagram-new.png" alt="instagram-new"/>
+            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/ffffff/instagram-new.png"
+                alt="instagram-new" />
         </div>
     </section>
-    
+
     <script src="script.js"></script>
 </body>
 
