@@ -201,22 +201,48 @@
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </section>
 
-    <!-- Modal de Checkout -->
-    <div id="checkout-modal" class="checkout-modal">
-        <div class="checkout-modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3>Preencha seu endereço para entrega</h3>
+    <!-- Modal de Finalizar Pedido -->
+    <div id="modal-checkout" class="modal">
+        <div class="modal-content">
+            <h2>Finalizar Pedido</h2>
             <form id="checkout-form">
-                <label for="address">Endereço:</label>
-                <input type="text" id="address" name="address" placeholder="Rua, número, bairro" required>
-                <label for="cep">CEP:</label>
-                <input type="text" id="cep" name="cep" placeholder="CEP" required>
-                <button type="button" onclick="submitOrder()">Finalizar Pedido</button>
+                <!-- Campos do Formulário -->
+                <label for="delivery-option">Escolha a entrega:</label>
+                <select id="delivery-option" name="delivery-option">
+                    <option value="pickup">Retirar na loja</option>
+                    <option value="delivery">Entrega</option>
+                </select>
+                <label for="city">Cidade:</label>
+                <input type="text" id="city" name="city" placeholder="Sua cidade">
+                <!-- Botão de Confirmar Pedido -->
+                <button type="button" id="finalize-order">Finalizar Pedido</button>
             </form>
-            <p id="delivery-warning" style="color: red; display: none;">Apenas realizamos entregas em Curitiba.</p>
         </div>
     </div>
 
+    <!-- Modal de Login/Cadastro -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Login ou Cadastro</h2>
+
+            <form id="authForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required><br><br>
+
+                <label for="password">Senha:</label>
+                <input type="password" id="password" required><br><br>
+
+                <button type="submit" id="authButton">Entrar</button>
+            </form>
+
+            <p id="authError"></p>
+            <p>Não tem uma conta? <a href="#" id="switchToRegister">Cadastre-se</a></p>
+        </div>
+    </div>
+
+    <!-- Botão "Finalizar Pedido" -->
+    <button id="finalizarPedidoBtn">Finalizar Pedido</button>
 
     <section class="footer">
         <div class="share">

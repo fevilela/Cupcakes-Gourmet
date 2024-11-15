@@ -139,9 +139,9 @@ function searchItems() {
     }
 }
 
-document.getElementById("search-icon").addEventListener("click", function() {
+document.getElementById("search-icon").addEventListener("click", function () {
     const searchInput = document.getElementById("search-input");
-    
+
     // Alterna a visibilidade do campo de pesquisa
     if (searchInput.style.display === "none" || searchInput.style.display === "") {
         searchInput.style.display = "block"; // Exibe a barra de pesquisa
@@ -157,68 +157,129 @@ function selectItem(item) {
     // Insere o nome do item no campo de busca
     document.getElementById("search-input").value = item.getAttribute("data-name");
     document.getElementById("suggestions").style.display = "none"; // Esconde o menu suspenso
-    
+
     // Rola a página até o item selecionado
     item.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-// Função para abrir o modal de checkout
+// Função para abrir o modal (por exemplo, quando o usuário clica no botão "Finalizar Pedido" na página principal)
 function openModal() {
-    const modal = document.getElementById("checkout-modal");
-    modal.style.display = "block";
+    document.getElementById("modal-checkout").style.display = "block"; // Exibe o modal
 }
 
-// Função para fechar o modal de checkout
+// Função para fechar o modal (pode ser chamada quando o pedido for finalizado ou cancelado)
 function closeModal() {
-    const modal = document.getElementById("checkout-modal");
-    modal.style.display = "none";
+    document.getElementById("modal-checkout").style.display = "none"; // Oculta o modal
 }
 
-// Opcional: Fecha o modal quando o usuário clica fora dele
-window.onclick = function(event) {
-    const modal = document.getElementById("checkout-modal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
+// Função para confirmar o pedido quando o botão "Finalizar Pedido" é clicado
+function confirmOrder(event) {
+    event.preventDefault(); // Evita o envio do formulário e recarregamento da página
 
-// Função para finalizar o pedido
-function submitOrder() {
-    const address = document.getElementById("address").value.trim();
-    const cep = document.getElementById("cep").value.trim();
+    const deliveryOption = document.getElementById("delivery-option").value;
+    const city = document.getElementById("city").value;
+    const cafeteriaCity = "Curitiba";
 
-    // Validar se o CEP é de Curitiba (exemplo: "80xxxx-xxx")
-    const curitibaCepRegex = /^[0-9]{5}-[0-9]{3}$/; // Expressão regular simples para validar o formato de CEP
-    const isCuritiba = curitibaCepRegex.test(cep);
-
-    if (!address || !cep) {
-        alert("Por favor, preencha todos os campos.");
+    // Verifica se a cidade está correta para a entrega
+    if (deliveryOption === "delivery" && city.toLowerCase() !== cafeteriaCity.toLowerCase()) {
+        alert("Desculpe, a entrega é permitida apenas na cidade de " + cafeteriaCity + ".");
         return;
     }
 
-    if (!isCuritiba) {
-        // Exibe um alerta de erro se o CEP não for de Curitiba
-        alert("Desculpe, entregamos apenas em Curitiba.");
-    } else {
-        // Fechar o modal
-        closeModal();
+    // Exibe mensagem de confirmação
+    alert("Pedido confirmado! Obrigado por comprar conosco.");
 
-        // Mostrar mensagem de agradecimento
-        alert("Pedido finalizado com sucesso! Agradecemos a sua preferência.");
-        
-        // Limpa o carrinho após finalizar o pedido
-        cartItems = []; 
-        updateCart();
+    // Limpa o carrinho de compras e fecha o modal
+    cartItems = []; // Limpa o carrinho (ou faça a lógica de remoção)
+    updateCart(); // Atualiza o carrinho
+    closeModal(); // Fecha o modal de checkout
+}
+
+// Associa o evento de clique no botão "Finalizar Pedido"
+document.getElementById("finalize-order").addEventListener("click", confirmOrder);
+
+
+// Abertura do Modal
+document.getElementById("finalizarPedidoBtn").addEventListener("click", () => {
+    // Verifica se o usuário está logado
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+        openModal();
+    } else {
+        alert("Você já está logado! Finalizando o pedido...");
+        // Aqui você pode continuar com o processo de finalizar pedido
+    }
+});
+
+// Exibe o Modal
+function openModal() {
+    document.getElementById("authModal").style.display = "block";
+}
+
+// Fecha o Modal
+function closeModal() {
+    document.getElementById("authModal").style.display = "none";
+}
+
+// Alternar entre Login e Cadastro
+document.getElementById("switchToRegister").addEventListener("click", () => {
+    document.getElementById("authButton").innerText = "Cadastrar";
+    document.getElementById("authForm").onsubmit = registerUser;
+});
+
+// Login e Cadastro
+document.getElementById("authForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    // Verifica qual ação (login ou cadastro) deve ser realizada
+    const authButtonText = document.getElementById("authButton").innerText;
+
+    if (authButtonText === "Entrar") {
+        loginUser(email, password);
+    } else {
+        registerUser(email, password);
+    }
+});
+
+// Função para Login
+async function loginUser(email, password) {
+    const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (data.token) {
+        localStorage.setItem("authToken", data.token); // Armazena o token JWT no localStorage
+        closeModal();
+        alert("Login bem-sucedido! Agora você pode finalizar o pedido.");
+    } else {
+        document.getElementById("authError").innerText = data.error || "Erro ao fazer login.";
     }
 }
 
-// // Evento para fechar o modal se clicar fora dele
-// window.onclick = function(event) {
-//     const modal = document.getElementById("checkout-modal");
-//     if (event.target === modal) {
-//         closeModal();
-//     }
-// };
+// Função para Cadastro
+async function registerUser(email, password) {
+    const response = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    });
 
+    const data = await response.json();
 
+    if (data.message) {
+        alert("Cadastro realizado com sucesso! Agora, faça login.");
+        document.getElementById("authButton").innerText = "Entrar";
+        document.getElementById("authForm").onsubmit = loginUser;
+    } else {
+        document.getElementById("authError").innerText = data.error || "Erro ao cadastrar.";
+    }
+}
 
