@@ -43,8 +43,8 @@ function updateCart() {
         itemCount += item.quantity;
 
         const listItem = document.createElement("li");
-        listItem.innerHTML = `
-            <span>${item.name}</span>
+        listItem.innerHTML =
+            `<span>${item.name}</span>
             <span>R$${(item.price * item.quantity).toFixed(2)}</span>
             <div class="cart-item-controls">
                 <button onclick="changeQuantity(${index}, -1)">-</button>
@@ -53,8 +53,8 @@ function updateCart() {
                 <button onclick="removeItem(${index})">
                     🗑️
                 </button>
-            </div>
-        `;
+            </div>`
+            ;
         cartItemsList.appendChild(listItem);
     });
 
@@ -82,10 +82,11 @@ function removeItem(index) {
 
 // Função para finalizar o pedido
 function finalizeOrder() {
-    alert("Pedido finalizado com sucesso!");
-    cartItems = []; // Limpa o carrinho
-    updateCart();
+    // Aqui, você pode pegar informações como o método de entrega e o carrinho.
+    const deliveryMethod = document.querySelector("#delivery-method").value; // Exemplo de select
+    alert(`Pedido finalizado com a entrega: ${deliveryMethod}`);
 }
+
 
 // Evento de clique nos botões "Adicionar ao Carrinho"
 document.querySelectorAll(".menu .box .btn").forEach(button => {
@@ -142,15 +143,15 @@ function searchItems() {
 document.getElementById("search-icon").addEventListener("click", function () {
     const searchInput = document.getElementById("search-input");
 
-    // Alterna a visibilidade do campo de pesquisa
-    if (searchInput.style.display === "none" || searchInput.style.display === "") {
-        searchInput.style.display = "block"; // Exibe a barra de pesquisa
-        searchInput.focus(); // Coloca o cursor na barra de pesquisa
+    if (!searchInput.style.display || searchInput.style.display === "none") {
+        searchInput.style.display = "block";
+        searchInput.focus();
     } else {
-        searchInput.style.display = "none"; // Oculta a barra de pesquisa
-        searchInput.value = ""; // Limpa o campo de pesquisa
-        document.getElementById("suggestions").style.display = "none"; // Esconde sugestões
+        searchInput.style.display = "none";
+        searchInput.value = "";
+        document.getElementById("suggestions").style.display = "none";
     }
+
 });
 
 function selectItem(item) {
@@ -162,124 +163,116 @@ function selectItem(item) {
     item.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-// Função para abrir o modal (por exemplo, quando o usuário clica no botão "Finalizar Pedido" na página principal)
+// Função que abre o modal de finalizar pedido
 function openModal() {
-    document.getElementById("modal-checkout").style.display = "block"; // Exibe o modal
+    const modal = document.getElementById("order-modal");
+    modal.style.display = "block";
 }
 
-// Função para fechar o modal (pode ser chamada quando o pedido for finalizado ou cancelado)
+// Função que fecha o modal de finalizar pedido
 function closeModal() {
-    document.getElementById("modal-checkout").style.display = "none"; // Oculta o modal
+    const modal = document.getElementById("order-modal");
+    modal.style.display = "none";
 }
 
-// Função para confirmar o pedido quando o botão "Finalizar Pedido" é clicado
-function confirmOrder(event) {
-    event.preventDefault(); // Evita o envio do formulário e recarregamento da página
+// Valida os campos obrigatórios para a entrega
+function validateDeliveryFields() {
+    const address = document.getElementById("address")?.value.trim();
+    const number = document.getElementById("number")?.value.trim();
+    const neighborhood = document.getElementById("neighborhood")?.value.trim();
+    const phone = document.getElementById("phone")?.value.trim();
+    const city = document.getElementById("city")?.value.trim();
 
-    const deliveryOption = document.getElementById("delivery-option").value;
-    const city = document.getElementById("city").value;
-    const cafeteriaCity = "Curitiba";
+    if (!address || !number || !neighborhood || !phone || !city) {
+        alert("Por favor, preencha todos os campos obrigatórios para entrega.");
+        return false;
+    }
 
-    // Verifica se a cidade está correta para a entrega
-    if (deliveryOption === "delivery" && city.toLowerCase() !== cafeteriaCity.toLowerCase()) {
-        alert("Desculpe, a entrega é permitida apenas na cidade de " + cafeteriaCity + ".");
+    return true;
+}
+
+// Lógica para confirmar o pedido
+function finalizeOrder() {
+    const deliveryMethod = document.getElementById("delivery-method").value;
+
+    // Verifica se a entrega foi selecionada
+    if (!deliveryMethod) {
+        alert("Por favor, selecione o método de entrega.");
         return;
     }
 
-    // Exibe mensagem de confirmação
-    alert("Pedido confirmado! Obrigado por comprar conosco.");
-
-    // Limpa o carrinho de compras e fecha o modal
-    cartItems = []; // Limpa o carrinho (ou faça a lógica de remoção)
-    updateCart(); // Atualiza o carrinho
-    closeModal(); // Fecha o modal de checkout
-}
-
-// Associa o evento de clique no botão "Finalizar Pedido"
-document.getElementById("finalize-order").addEventListener("click", confirmOrder);
-
-
-// Abertura do Modal
-document.getElementById("finalizarPedidoBtn").addEventListener("click", () => {
-    // Verifica se o usuário está logado
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-        openModal();
-    } else {
-        alert("Você já está logado! Finalizando o pedido...");
-        // Aqui você pode continuar com o processo de finalizar pedido
+    if (deliveryMethod === "entrega" && !validateDeliveryFields()) {
+        // Impede a finalização se houver campos inválidos para entrega
+        return;
     }
-});
 
-// Exibe o Modal
-function openModal() {
-    document.getElementById("authModal").style.display = "block";
+    alert("Pedido finalizado com sucesso! Obrigado por comprar conosco.");
+    cartItems = []; // Limpa o carrinho
+    updateCart();
+    closeModal(); // Fecha o modal
 }
 
-// Fecha o Modal
-function closeModal() {
-    document.getElementById("authModal").style.display = "none";
-}
+// Alterna a exibição dos campos de endereço para entrega
+function toggleAddressFields() {
+    const deliveryMethod = document.getElementById("delivery-method").value;
+    const deliveryFields = document.getElementById("delivery-fields");
 
-// Alternar entre Login e Cadastro
-document.getElementById("switchToRegister").addEventListener("click", () => {
-    document.getElementById("authButton").innerText = "Cadastrar";
-    document.getElementById("authForm").onsubmit = registerUser;
-});
-
-// Login e Cadastro
-document.getElementById("authForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    // Verifica qual ação (login ou cadastro) deve ser realizada
-    const authButtonText = document.getElementById("authButton").innerText;
-
-    if (authButtonText === "Entrar") {
-        loginUser(email, password);
+    if (deliveryMethod === "entrega") {
+        deliveryFields.style.display = "block";
     } else {
-        registerUser(email, password);
+        deliveryFields.style.display = "none";
     }
-});
+}
 
-// Função para Login
-async function loginUser(email, password) {
-    const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+// Adiciona evento ao botão "Finalizar Pedido"
+document.getElementById("finalize-order-btn").addEventListener("click", finalizeOrder);
+
+// Adiciona evento para alternar os campos de endereço conforme o método de entrega
+document.getElementById("delivery-method").addEventListener("change", toggleAddressFields);
+
+// Evento de clique no botão "Saber Mais"
+// Evento de clique no botão "Saber Mais"
+document.querySelectorAll(".menu .box .know-more-btn").forEach(button => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault(); // Impede que qualquer outra ação aconteça ao clicar
+
+        const cupcake = button.closest(".box"); // Encontra o cupcake clicado
+        const name = cupcake.querySelector("h3").textContent;
+        const description = cupcake.getAttribute("data-description");
+        const allergens = cupcake.getAttribute("data-allergens");
+
+        // Exibe o modal com as informações
+        document.getElementById("modal-title").textContent = name;
+        document.getElementById("modal-description").textContent = description;
+        document.getElementById("modal-allergens").textContent = "Alergênicos: " + allergens;
+
+        // Exibe o modal
+        document.getElementById("modal-more").style.display = "block";
     });
+});
 
-    const data = await response.json();
+// Evento para fechar o modal quando clicar no "X"
+document.querySelector(".modal-more .close").addEventListener("click", () => {
+    document.getElementById("modal-more").style.display = "none";
+});
 
-    if (data.token) {
-        localStorage.setItem("authToken", data.token); // Armazena o token JWT no localStorage
-        closeModal();
-        alert("Login bem-sucedido! Agora você pode finalizar o pedido.");
-    } else {
-        document.getElementById("authError").innerText = data.error || "Erro ao fazer login.";
+// Fecha o modal se o usuário clicar fora da área do conteúdo
+window.addEventListener("click", (event) => {
+    if (event.target === document.getElementById("modal-more")) {
+        document.getElementById("modal-more").style.display = "none";
     }
-}
+});
 
-// Função para Cadastro
-async function registerUser(email, password) {
-    const response = await fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+// Evento de clique no botão "Adicionar ao Carrinho"
+document.querySelectorAll(".menu .box .add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault(); // Impede que qualquer outra ação aconteça ao clicar
+
+        const cupcake = button.closest(".box"); // Encontra o cupcake clicado
+        const itemName = cupcake.querySelector("h3").textContent;
+        const itemPrice = cupcake.querySelector(".price").textContent.replace("R$", "").trim();
+
+        // Adiciona o cupcake ao carrinho
+        addToCart(itemName, itemPrice);
     });
-
-    const data = await response.json();
-
-    if (data.message) {
-        alert("Cadastro realizado com sucesso! Agora, faça login.");
-        document.getElementById("authButton").innerText = "Entrar";
-        document.getElementById("authForm").onsubmit = loginUser;
-    } else {
-        document.getElementById("authError").innerText = data.error || "Erro ao cadastrar.";
-    }
-}
-
+});
