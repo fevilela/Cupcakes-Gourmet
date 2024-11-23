@@ -80,14 +80,6 @@ function removeItem(index) {
     updateCart();
 }
 
-// Função para finalizar o pedido
-function finalizeOrder() {
-    // Aqui, você pode pegar informações como o método de entrega e o carrinho.
-    const deliveryMethod = document.querySelector("#delivery-method").value; // Exemplo de select
-    alert(`Pedido finalizado com a entrega: ${deliveryMethod}`);
-}
-
-
 // Evento de clique nos botões "Adicionar ao Carrinho"
 document.querySelectorAll(".menu .box .btn").forEach(button => {
     button.addEventListener("click", (event) => {
@@ -163,6 +155,11 @@ function selectItem(item) {
     item.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
+// Adiciona evento ao botão "Finalizar Pedido"
+document.getElementById("finalize-order-btn").addEventListener("click", function () {
+    openModal();
+});
+
 // Função que abre o modal de finalizar pedido
 function openModal() {
     const modal = document.getElementById("order-modal");
@@ -175,13 +172,198 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-// Valida os campos obrigatórios para a entrega
+// Finalizando o pedido
+function finalizeOrder() {
+    const deliveryMethod = document.getElementById("delivery-method").value;
+
+    if (!deliveryMethod) {
+        alert("Por favor, selecione o método de entrega.");
+        return;
+    }
+
+    const userEmail = localStorage.getItem("userEmail");
+
+    if (!userEmail) {
+        alert("Você precisa estar logado para finalizar um pedido.");
+        return;
+    }
+
+    const order = {
+        id: Date.now(),
+        items: [...cartItems],  // Todos os itens do carrinho
+        total: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),  // Total do pedido
+        deliveryMethod,
+        date: new Date().toLocaleString()  // Data do pedido
+    };
+
+    // Salvando o pedido no localStorage
+    const allOrders = JSON.parse(localStorage.getItem("userOrders")) || {};
+    const userOrders = allOrders[userEmail] || [];
+    userOrders.push(order);
+
+    allOrders[userEmail] = userOrders;
+    localStorage.setItem("userOrders", JSON.stringify(allOrders));
+
+    alert("Pedido finalizado com sucesso!");
+
+    // Limpar o carrinho após finalizar o pedido
+    cartItems = [];
+    updateCart();
+    closeModal();
+}
+
+
+// Fechar o modal quando o usuário clicar no 'X'
+document.getElementById("close-order-history").addEventListener("click", function () {
+    const modal = document.getElementById("order-history-modal");
+    modal.style.display = "none";  // Fecha o modal
+});
+
+
+
+function saveOrder(order) {
+    const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+    if (!loggedUser) {
+        alert("Você precisa estar logado para salvar pedidos!");
+        return;
+    }
+
+    // Recupera o histórico de pedidos do usuário
+    let orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || {};
+    const userOrders = orderHistory[loggedUser.id] || [];
+
+    // Adiciona o novo pedido
+    userOrders.push(order);
+    orderHistory[loggedUser.id] = userOrders;
+
+    // Salva de volta no LocalStorage
+    localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+
+    alert("Pedido salvo com sucesso!");
+}
+
+document.getElementById("order-history-btn").addEventListener("click", function () {
+    console.log("Botão clicado!");
+
+    const userEmail = localStorage.getItem("userEmail");
+
+    if (!userEmail) {
+        alert("Você precisa estar logado para acessar o histórico de pedidos!");
+        return;
+    }
+
+    const allOrders = JSON.parse(localStorage.getItem("userOrders")) || {};
+    const userOrders = allOrders[userEmail] || [];
+
+    const orderHistoryList = document.getElementById("order-history-list");
+    orderHistoryList.innerHTML = "";  // Limpa o conteúdo anterior
+
+    console.log("Pedidos encontrados:", userOrders);  // Verifique se os pedidos estão corretos
+
+    if (userOrders.length === 0) {
+        orderHistoryList.innerHTML = "<li>Nenhum pedido encontrado.</li>";
+    } else {
+        userOrders.forEach((order, index) => {
+            const orderItem = document.createElement("li");
+
+            let orderDetails = `<b>Pedido ${index + 1}:</b> <br><b>Total:</b> R$${order.total.toFixed(2)} <br><b>Data:</b> ${order.date} <br><b>Método:</b> ${order.deliveryMethod}<br>`;
+
+            // Exibe os itens do pedido
+            order.items.forEach(item => {
+                orderDetails += `${item.quantity} x ${item.name} - R$${(item.price * item.quantity).toFixed(2)}<br>`;
+            });
+
+            orderItem.innerHTML = orderDetails;
+            orderHistoryList.appendChild(orderItem);
+        });
+    }
+
+    const modal = document.getElementById("order-history-modal");
+    console.log("Modal exibido:", modal);
+});
+
+function getOrderHistory() {
+    const userEmail = localStorage.getItem("userEmail");
+
+    if (!userEmail) {
+        alert("Você precisa estar logado para salvar ou acessar pedidos.");
+        return;
+    }
+
+    // Recupera ou inicializa o histórico de pedidos
+    const allOrders = JSON.parse(localStorage.getItem("userOrders")) || {};
+    const userOrders = allOrders[userEmail] || [];
+
+    // Adiciona novo pedido
+    userOrders.push(order);
+    allOrders[userEmail] = userOrders;
+
+    // Salva de volta no localStorage
+    localStorage.setItem("userOrders", JSON.stringify(allOrders));
+}
+
+
+window.onload = function () {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+        const userEmail = localStorage.getItem("userEmail");
+        if (userEmail) {
+            isLoggedIn = true;
+            document.getElementById("login-link").style.display = "none";
+            document.getElementById("register-link").style.display = "none";
+            document.getElementById("logout-btn").style.display = "inline-block";
+        } else {
+            localStorage.setItem("isLoggedIn", "false");
+        }
+    }
+};
+
+
+// Abrir o modal
+document.getElementById("order-history-btn").addEventListener("click", function () {
+    const modal = document.getElementById("order-history-modal");
+    modal.style.display = "block";
+});
+
+// Fechar o modal ao clicar no botão de fechar
+document.getElementById("close-order-history").addEventListener("click", function () {
+    const modal = document.getElementById("order-history-modal");
+    modal.style.display = "none";
+});
+
+// Fechar o modal ao clicar fora da área do conteúdo
+window.addEventListener("click", function (event) {
+    const modal = document.getElementById("order-history-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+// Fechar o modal ao pressionar a tecla Esc
+document.addEventListener("keydown", function (event) {
+    const modal = document.getElementById("order-history-modal");
+    if (event.key === "Escape") {
+        modal.style.display = "none";
+    }
+});
+
 function validateDeliveryFields() {
-    const address = document.getElementById("address")?.value.trim();
-    const number = document.getElementById("number")?.value.trim();
-    const neighborhood = document.getElementById("neighborhood")?.value.trim();
-    const phone = document.getElementById("phone")?.value.trim();
-    const city = document.getElementById("city")?.value.trim();
+    const addressElement = document.getElementById("address-form");
+
+    const numberElement = document.getElementById("number");
+    const neighborhoodElement = document.getElementById("neighborhood");
+    const phoneElement = document.getElementById("phone");
+    const cityElement = document.getElementById("city");
+
+    if (!addressElement || !numberElement || !neighborhoodElement || !phoneElement || !cityElement) {
+        alert("Um ou mais campos obrigatórios estão ausentes.");
+        return false;
+    }
+
+    const address = addressElement.value.trim();
+    const number = numberElement.value.trim();
+    const neighborhood = neighborhoodElement.value.trim();
+    const phone = phoneElement.value.trim();
+    const city = cityElement.value.trim();
 
     if (!address || !number || !neighborhood || !phone || !city) {
         alert("Por favor, preencha todos os campos obrigatórios para entrega.");
@@ -191,28 +373,7 @@ function validateDeliveryFields() {
     return true;
 }
 
-// Lógica para confirmar o pedido
-function finalizeOrder() {
-    const deliveryMethod = document.getElementById("delivery-method").value;
 
-    // Verifica se a entrega foi selecionada
-    if (!deliveryMethod) {
-        alert("Por favor, selecione o método de entrega.");
-        return;
-    }
-
-    if (deliveryMethod === "entrega" && !validateDeliveryFields()) {
-        // Impede a finalização se houver campos inválidos para entrega
-        return;
-    }
-
-    alert("Pedido finalizado com sucesso! Obrigado por comprar conosco.");
-    cartItems = []; // Limpa o carrinho
-    updateCart();
-    closeModal(); // Fecha o modal
-}
-
-// Alterna a exibição dos campos de endereço para entrega
 function toggleAddressFields() {
     const deliveryMethod = document.getElementById("delivery-method").value;
     const deliveryFields = document.getElementById("delivery-fields");
@@ -224,14 +385,26 @@ function toggleAddressFields() {
     }
 }
 
-// Adiciona evento ao botão "Finalizar Pedido"
-document.getElementById("finalize-order-btn").addEventListener("click", finalizeOrder);
+// Fechar o modal de finalizar pedido ao clicar no botão de fechar
+document.getElementById('close-order-modal').addEventListener('click', function () {
+    document.getElementById('order-modal').style.display = 'none';
+});
 
-// Adiciona evento para alternar os campos de endereço conforme o método de entrega
+// Fechar o modal ao clicar fora do conteúdo
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('order-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
 document.getElementById("delivery-method").addEventListener("change", toggleAddressFields);
 
-// Evento de clique no botão "Saber Mais"
-// Evento de clique no botão "Saber Mais"
+// Adiciona evento ao botão "Finalizar Pedido"
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("finalize-order-btn").addEventListener("click", finalizeOrder);
+});
+
 document.querySelectorAll(".menu .box .know-more-btn").forEach(button => {
     button.addEventListener("click", (event) => {
         event.preventDefault(); // Impede que qualquer outra ação aconteça ao clicar
@@ -275,4 +448,163 @@ document.querySelectorAll(".menu .box .add-to-cart-btn").forEach(button => {
         // Adiciona o cupcake ao carrinho
         addToCart(itemName, itemPrice);
     });
+});
+
+// Variável para controlar o estado de login
+// let isLoggedIn = false;
+
+// Abrir o modal de login/registro
+document.getElementById('login-link').addEventListener('click', function () {
+    document.getElementById('modal-auth').style.display = 'block';
+    document.getElementById('modal-title-auth').textContent = 'Login';
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('register-form').style.display = 'none';
+});
+
+document.getElementById('register-link').addEventListener('click', function () {
+    document.getElementById('modal-auth').style.display = 'block';
+    document.getElementById('modal-title-auth').textContent = 'Registrar';
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+});
+
+// Fechar o modal
+document.getElementById('close-modal-auth').addEventListener('click', function () {
+    document.getElementById('modal-auth').style.display = 'none';
+});
+
+// Alternar para a tela de registro
+document.getElementById('go-to-register').addEventListener('click', function () {
+    document.getElementById('modal-title-auth').textContent = 'Registrar';
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+});
+
+// Alternar para a tela de login
+document.getElementById('go-to-login').addEventListener('click', function () {
+    document.getElementById('modal-title-auth').textContent = 'Login';
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('register-form').style.display = 'none';
+});
+
+// Variável para verificar se o usuário está logado (baseada no localStorage)
+let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+window.onload = function () {
+    // Atualiza o estado de autenticação
+    isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (isLoggedIn) {
+        // O usuário está logado
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('register-link').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'inline-block';
+    } else {
+        // O usuário não está logado
+        document.getElementById('login-link').style.display = 'inline-block';
+        document.getElementById('register-link').style.display = 'inline-block';
+        document.getElementById('logout-btn').style.display = 'none';
+    }
+};
+
+// Evento de login
+document.getElementById('login-btn').addEventListener('click', function () {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const storedEmail = localStorage.getItem('userEmail');
+    const storedPassword = localStorage.getItem('userPassword');
+
+    // Verificar se o email e a senha coincidem com os dados registrados
+    if (email === storedEmail && password === storedPassword) {
+        localStorage.setItem("isLoggedIn", "true"); // Salva o estado de login
+        alert('Login bem-sucedido!');
+        atualizarEstadoAutenticacao();
+        document.getElementById('modal-auth').style.display = 'none';
+    } else {
+        alert('Email ou senha incorretos!');
+    }
+});
+
+// Evento de logout
+document.getElementById('logout-btn').addEventListener('click', function () {
+    localStorage.setItem('isLoggedIn', 'false'); // Atualiza o estado no localStorage
+    localStorage.removeItem('userEmail'); // Remove o email do usuário logado
+    cartItems = []; // Limpa o carrinho (opcional)
+    updateCart();
+    atualizarEstadoAutenticacao();
+});
+
+// Função para atualizar o estado de autenticação
+function atualizarEstadoAutenticacao() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (isLoggedIn) {
+        // Ajusta o estado do DOM para usuário logado
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('register-link').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'inline-block';
+    } else {
+        // Ajusta o estado do DOM para usuário deslogado
+        document.getElementById('login-link').style.display = 'inline-block';
+        document.getElementById('register-link').style.display = 'inline-block';
+        document.getElementById('logout-btn').style.display = 'none';
+    }
+}
+
+// Registro de usuário
+document.getElementById('register-btn').addEventListener('click', function () {
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    if (name && email && password) {
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPassword', password);
+        localStorage.setItem('isLoggedIn', 'true'); // Marca como logado
+        alert('Registro bem-sucedido!');
+        atualizarEstadoAutenticacao();
+        document.getElementById('modal-auth').style.display = 'none';
+    } else {
+        alert('Por favor, preencha todos os campos de registro!');
+    }
+});
+
+
+
+// Lógica para o registro (armazenar os dados no localStorage)
+document.getElementById('register-btn').addEventListener('click', function () {
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    // Armazenar os dados de registro no localStorage
+    if (name && email && password) {
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPassword', password);
+        alert('Registro bem-sucedido!');
+        isLoggedIn = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        document.getElementById('modal-auth').style.display = 'none';
+    } else {
+        alert('Por favor, preencha todos os campos de registro!');
+    }
+});
+
+
+
+
+// Função que simula o processo de finalização da compra
+document.getElementById('finalizar-compra-btn').addEventListener('click', function () {
+    if (isLoggedIn) {
+        alert('Compra finalizada com sucesso!');
+    } else {
+        alert('Você precisa estar logado para finalizar a compra. Por favor, faça login ou registre-se.');
+        document.getElementById('modal-auth').style.display = 'block';
+        document.getElementById('modal-title-auth').textContent = 'Login';
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
+    }
 });

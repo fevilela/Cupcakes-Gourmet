@@ -47,8 +47,8 @@ section{
 }
 
 .navbar a {
-    margin:0 1rem;
-    font-size: 1.8rem;
+    margin:0 0.5rem;
+    font-size: 1.7rem;
     color: #fff;
 }
 
@@ -274,20 +274,6 @@ section{
     border-radius: 50%;
 }
 
-/* Estilo da barra lateral do carrinho */
-/* .cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -400px; /* Definindo a largura inicial fora da tela 
-    width: 300px; /* Aumentando a largura para comportar melhor os itens 
-    height: 100%; /* Ajustando a altura para caber na tela 
-    background-color: var(--bg);
-    box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    transition: right 0.3s ease;
-    z-index: 1000;
-} */
-
 .cart-sidebar {
     display: none;
     position: fixed;
@@ -453,30 +439,6 @@ section{
     border-radius: 4px;
 }
 
-/* Sugestões de pesquisa */
-/* #suggestions {
-    position: absolute;
-    top: 35px; /* Ajuste para alinhar logo abaixo da barra de pesquisa 
-    background-color: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    display: none; /* Escondido por padrão 
-    max-height: 150px;
-    overflow-y: auto;
-    z-index: 10;
-}
-
-#suggestions div {
-    padding: 10px;
-    cursor: pointer;
-}
-
-#suggestions div:hover {
-    background-color: #fff;
-} */
-
 #suggestions {
     position: absolute;
     background: white;
@@ -599,7 +561,7 @@ section{
 /* Conteúdo do modal */
 .modal-content-more {
     background-color: var(--bg);
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: #fff;
     margin: 15% auto;
     padding: 20px;
@@ -619,6 +581,20 @@ section{
 
 #modal-description{
     padding: 20px 0; /* Adiciona um pouco de espaçamento acima e abaixo */
+}
+
+.modal .close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.modal .close:hover {
+    color: black;
 }
 
 
@@ -668,41 +644,155 @@ section{
     right: 10px; /* Distância da direita do cupcake */
 }
 
-/* Estilo do Modal */
-.login-modal {
-    display: none; /* Inicialmente oculto */
+/* Estilo para o modal */
+.modal-auth {
+    display: none;  /* Inicialmente escondido */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    background: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1000; /* Garante que o modal fique sobre outros elementos */
 }
 
-.modal-content-login {
-    background-color: white;
+.modal-content-auth {
+    background: white;
     padding: 20px;
-    border-radius: 5px;
-    width: 300px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;  /* Largura máxima do modal */
     text-align: center;
+    position: relative; /* Necessário para posicionar o botão de fechar */
+    z-index: 1001;  /* Garante que o conteúdo do modal fique sobre o fundo */
 }
 
-.close-login-modal{
-    font-size: 30px;
-    font-weight: bold;
-    color: #aaa;
+.modal-content-auth input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-content-auth button {
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content-auth button:hover {
+    background-color: var(--main-color);
+}
+
+.modal-content-auth p {
+    font-size: 14px;
+}
+
+.modal-content-auth a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+/* Corrigido para a classe .close-auth */
+.modal-content-auth .close-auth {
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 10px;
+    font-size: 30px;
     cursor: pointer;
 }
 
-.close-login-modal:hover,
-.close-login-modal:focus {
-    color: black;
-    text-decoration: none;
+.modal-content-auth .close-auth:hover {
+    color: red;
+}
+
+/* Modal */
+.modal-history {
+    display: none;  /* Inicialmente invisível */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    z-index: 9999;  /* Garantir que o modal fique acima de outros conteúdos */
+    transition: opacity 0.3s ease;  /* Transição suave para aparecer/desaparecer */
+}
+
+/* Modal visível quando ativo */
+.modal-history.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Conteúdo do modal */
+.modal-content-history {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10% auto;
+    width: 90%;  /* Aumentei a largura para dar mais espaço */
+    max-width: 800px;  /* Limita o tamanho máximo */
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 8px;  /* Cantos arredondados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave para destacar o modal */
+}
+
+/* Botão de fechar (X) */
+.close-history {
+    color: #888;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-history:hover,
+.close-history:focus {
+    color: #f00;  /* Altera a cor para vermelho ao passar o mouse */
+    text-decoration: none;
+}
+
+/* Lista de pedidos */
+#order-history-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Itens da lista de pedidos */
+#order-history-list li {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fafafa;
+    border-radius: 5px;  /* Cantos arredondados nos itens */
+    transition: background-color 0.3s ease;
+    font-size: 1.3rem;
+}
+
+#order-history-list li:hover {
+    background-color: #f0f0f0;  /* Efeito de hover para destacar o item */
+}
+
+/* Estilo para os detalhes dos itens */
+#order-history-list li span {
+    font-size: 1.5rem;
+    color: #000;  /* Cor de texto para detalhes */
+}
+
+/* Texto de título */
+h2 {
+    font-size: 24px;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
