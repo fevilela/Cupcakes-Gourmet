@@ -584,7 +584,6 @@ section{
 }
 
 .modal .close {
-    display: none;
     position: absolute;
     top: 10px;
     right: 20px;
@@ -596,6 +595,7 @@ section{
 .modal .close:hover {
     color: black;
 }
+
 
 
 /* Botão de fechar */
@@ -648,6 +648,7 @@ section{
 #logout-btn {
     display: none;
 }
+
 
 /* Estilo para o modal */
 .modal-auth {

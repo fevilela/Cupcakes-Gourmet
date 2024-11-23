@@ -398,6 +398,7 @@ window.addEventListener('click', function (event) {
     }
 });
 
+
 document.getElementById("delivery-method").addEventListener("change", toggleAddressFields);
 
 // Adiciona evento ao botão "Finalizar Pedido"
