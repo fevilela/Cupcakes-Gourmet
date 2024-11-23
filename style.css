@@ -644,6 +644,11 @@ section{
     right: 10px; /* Distância da direita do cupcake */
 }
 
+
+#logout-btn {
+    display: none;
+}
+
 /* Estilo para o modal */
 .modal-auth {
     display: none;  /* Inicialmente escondido */
